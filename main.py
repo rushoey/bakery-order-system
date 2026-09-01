@@ -1,33 +1,8 @@
+import json
 orders = []
 ordenes_eliminadas = []
 id = 0
-def menu_principal() :
-    print("\n==============================================================")
-    print("-- Bienvenid@ al sistema de ordenes de madriguera de hogazas--")
-    print("==============================================================")
-
-    print("\n1. Crear orden")
-    print("2. Ver ordenes")
-    print("3. Cancelar ordenes")
-    print("4. Registro ordenes eliminadas")
-    print("5. Ver hogazas disponibles")
-    print("6. Salir del sistema")
-
-    option = int(input("\nElije la funcion que quieras utilizar ej. '1': "))
-
-    if (option == 1) :
-        crear_orden()
-    elif (option == 2) :
-        ver_ordenes()
-    elif (option == 3) :
-        cancelar_orden()
-    elif (option == 4) :
-        registro_eliminadas()
-
-def regresar_menu() :
-    regresar = input("\n\n-----Deseas regresar al menu? teclea 'menu'-----: ")
-    if regresar.lower() == 'menu' :
-       menu_principal()
+corriendo = True
 
 def crear_orden() :
     name = input("\nIngresa el nombre del cliente: ").strip()
@@ -46,7 +21,6 @@ def crear_orden() :
     }
     orders.append(new_order)
     print(f"\nOrden creada con exito para {name}!")
-    regresar_menu()
 
 def ver_ordenes() :
     print("\n---Estas son las ordenes pendientes---")
@@ -56,17 +30,28 @@ def ver_ordenes() :
         print(f"    Numero de telefono: {order['phone']}")
         print(f"    Fecha: {order['date']}")
         print(f"    Cantidad de hogazas: {order['amount']}\n")
-    regresar_menu()
 
 def cancelar_orden() :
-    id_eliminar = int(input("\n---Ingresa el numero de orden que quieras eliminar---"))
-    for index, order in enumerate(orders) :
-        if (id_eliminar == order['id']) :
-            ordenes_eliminadas.append(orders.pop(index))
-            print(f"\nOrden #{id_eliminar} eliminada con exito")
+    if not orders : 
+        print("No hay ninguna orden hasta ahora" ) 
+    else :
+        id_eliminar = input("\n---Ingresa el numero de orden que quieras eliminar--- ")
+        keep_running = True
+        while (keep_running) :
+            for index, order in enumerate(orders) :
+                if (id_eliminar == "salir"):
+                    keep_running = False
+                    break
+                elif (int(id_eliminar) == order['id']) :
+                    ordenes_eliminadas.append(orders.pop(index))
+                    print(f"\nOrden #{id_eliminar} eliminada con exito")
+                    keep_running = False
+                    break
+            else :
+                id_eliminar = input("\n---Ingresa el numero de orden que quieras eliminar ('salir' para ir al menu)--- ")
+                if (id_eliminar == "salir"):
+                    keep_running = False
         
-    regresar_menu()
-
 def registro_eliminadas() :
     print("\n---Estas son las ultimas ordenes que fueron eliminadas ---")
     for index, orden_eliminada in enumerate(ordenes_eliminadas, 1):
@@ -76,7 +61,30 @@ def registro_eliminadas() :
         print(f"    Fecha: {orden_eliminada['date']}")
         print(f"    Cantidad de hogazas: {orden_eliminada['amount']}\n")
 
-    regresar_menu()
+def main() :
+    global corriendo
+    while (corriendo) :
+        print("\n==============================================================")
+        print("-- Bienvenid@ al sistema de ordenes de madriguera de hogazas--")
+        print("==============================================================")
 
+        print("\n1. Crear orden")
+        print("2. Ver ordenes")
+        print("3. Cancelar ordenes")
+        print("4. Registro ordenes eliminadas")
+        print("5. Ver hogazas disponibles")
+        print("6. Salir del sistema")
 
-menu_principal()
+        option = int(input("\nElije la funcion que quieras utilizar ej. '1': "))
+        if (option == 1) :
+            crear_orden()
+        elif (option == 2) :
+            ver_ordenes()
+        elif (option == 3) :
+            cancelar_orden()
+        elif (option == 4) :
+            registro_eliminadas()
+        elif (option == 6) :
+            corriendo = False
+
+main()
