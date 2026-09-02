@@ -3,6 +3,11 @@ orders = []
 ordenes_eliminadas = []
 id = 0
 corriendo = True
+with open("orders.json", "r", encoding="utf-8") as file:
+    orders = json.load(file)
+
+with open("ordenes_eliminadas.json", "r", encoding="utf-8") as file:
+    ordenes_eliminadas = json.load(file)
 
 def crear_orden() :
     name = input("\nIngresa el nombre del cliente: ").strip()
@@ -20,6 +25,8 @@ def crear_orden() :
         "amount": amount
     }
     orders.append(new_order)
+    with open("orders.json", "w", encoding="utf-8") as file:
+        json.dump(orders, file, indent=4)
     print(f"\nOrden creada con exito para {name}!")
 
 def ver_ordenes() :
@@ -45,6 +52,10 @@ def cancelar_orden() :
                 elif (int(id_eliminar) == order['id']) :
                     ordenes_eliminadas.append(orders.pop(index))
                     print(f"\nOrden #{id_eliminar} eliminada con exito")
+                    with open("orders.json", "w", encoding="utf-8") as file:
+                        json.dump(orders, file, indent=4)
+                    with open("ordenes_eliminadas.json", "w", encoding="utf-8") as file:
+                        json.dump(ordenes_eliminadas, file, indent=4)
                     keep_running = False
                     break
             else :
