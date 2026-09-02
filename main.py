@@ -3,6 +3,9 @@ orders = []
 ordenes_eliminadas = []
 id = 0
 corriendo = True
+with open("id.json", "r") as file:
+    id = json.load(file)
+
 with open("orders.json", "r", encoding="utf-8") as file:
     orders = json.load(file)
 
@@ -27,6 +30,8 @@ def crear_orden() :
     orders.append(new_order)
     with open("orders.json", "w", encoding="utf-8") as file:
         json.dump(orders, file, indent=4)
+    with open("id.json", "w", encoding="utf-8") as file:
+        json.dump(id, file)
     print(f"\nOrden creada con exito para {name}!")
 
 def ver_ordenes() :
