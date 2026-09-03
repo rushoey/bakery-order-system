@@ -5,5 +5,12 @@
         "phone": "7039623200",
         "date": "02-09",
         "amount": 1
+    },
+    {
+        "id": 4,
+        "name": "martin",
+        "phone": 3726953888,
+        "date": "03-09",
+        "amount": 3
     }
 ]

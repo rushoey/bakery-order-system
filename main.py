@@ -12,11 +12,25 @@ with open("orders.json", "r", encoding="utf-8") as file:
 with open("ordenes_eliminadas.json", "r", encoding="utf-8") as file:
     ordenes_eliminadas = json.load(file)
 
+def get_valid_int(prompt, min_val = None, max_val = None) :
+    while True :
+        try :
+            value = int(input(prompt))
+            if min_val is not None and value < min_val :
+                print(f"El valor que ingresaste no es valido. El valor tiene que ser minimo {min_val}")
+                continue
+            if max_val is not None and value > max_val :
+                print(f"El valor que ingresaste no es valido. El valor tiene que ser maximo {max_val}")
+                continue
+            return value
+        except ValueError :
+            print(f"Formato invalido, recuerda ingresar un numero entero")
+
 def crear_orden() :
     name = input("\nIngresa el nombre del cliente: ").strip()
-    phone = input("Ingresa el numero de telefono del cliente: ").strip()
-    date = input("Ingresa la fecha para recoger (dd-mm): ").strip()
-    amount = int(input("Ingresa la cantidad de hogazas: "))
+    phone = get_valid_int("Ingresa el numero de telefono del cliente: ", min_val = 1000000000, max_val = 9999999999)
+    date = input("Ingresa la fecha para recoger (DD-MM): ")
+    amount = get_valid_int("Ingresa la cantidad de hogazas: ", min_val = 1, max_val = 8) # nota para futuro: cambiar el max_val por variable que maneje disponibilidad de hogazas segun el dia que el usuario ingrese
     global id
     id += 1
 
