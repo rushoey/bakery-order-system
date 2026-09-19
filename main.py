@@ -81,10 +81,14 @@ def cancelar_orden() :
                         json.dump(ordenes_eliminadas, file, indent=4) # actualiza el archivo de ordenes_eliminadas.json con la lista actual de ordenes_eliminadas (agrega la orden eliminada)
                     keep_running = False
                     break
+                else :
+                    print("---Ingresa el numero de orden que quieras eliminar")
             else :
                 id_eliminar = input("\n---Ingresa el numero de orden que quieras eliminar ('salir' para ir al menu)--- ")
                 if (id_eliminar == "salir"):
                     keep_running = False
+                else :
+                    continue
         
 def registro_eliminadas() : # imprime la lista de ordenes_eliminadas usando un for loop
     print("\n---Estas son las ultimas ordenes que fueron eliminadas ---")
@@ -110,15 +114,18 @@ def main() :
         print("6. Salir del sistema")
 
         option = get_valid_int("\nElije la funcion que quieras utilizar ej. '1': ", min_val = 1, max_val = 6)
-        if (option == 1) :
-            crear_orden()
-        elif (option == 2) :
-            ver_ordenes()
-        elif (option == 3) :
-            cancelar_orden()
-        elif (option == 4) :
-            registro_eliminadas()
-        elif (option == 6) :
-            corriendo = False  # cambia el estado del booleano corriendo, y termina el sistema
+        match option:
+            case 1:
+                crear_orden()
+            case 2:
+                ver_ordenes()
+            case 3:
+                cancelar_orden()
+            case 4:
+                registro_eliminadas()
+            case 6:
+                corriendo = False
+            case _:
+                print("Opción invalida")
 
 main()
